@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Pollo.oklas</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: #050505;
+      overscroll-behavior: none;
+    }
+
+    body {
+      min-height: 100dvh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 40px 0;
+      font-family: Arial, sans-serif;
+      background:
+        linear-gradient(120deg, #050505, #0d0d0d, #111111);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      color: white;
+
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Background grid */
+
+    .grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Floating barber stripes */
+
+    .stripe {
+      position: fixed;
+      width: 500px;
+      height: 80px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.04),
+        transparent
+      );
+      transform: rotate(-35deg);
+      animation: moveStripe 10s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .stripe1 {
+      top: 10%;
+      left: -300px;
+    }
+
+    .stripe2 {
+      bottom: 10%;
+      right: -300px;
+      animation-delay: 5s;
+    }
+
+    @keyframes moveStripe {
+      from {
+        transform: rotate(-35deg) translateX(0);
+      }
+
+      to {
+        transform: rotate(-35deg) translateX(300px);
+      }
+    }
+
+    /* Main layout */
+
+    .container {
+      position: relative;
+      z-index: 2;
+      width: 92%;
+      max-width: 430px;
+    }
+
+    /* Header section */
+
+    .top-card {
+      background: linear-gradient(145deg, #1a1a1a, #111111);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 30px;
+      padding: 30px;
+      margin-bottom: 20px;
+      text-align: center;
+      box-shadow:
+        0 0 35px rgba(0,0,0,0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Accent line */
+
+    .top-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(
+        90deg,
+        #00f5ff,
+        #00ff9d,
+        #00f5ff
+      );
+    }
+
+    /* Profile image */
+
+    .profile-wrapper {
+      position: relative;
+      width: fit-content;
+      margin: auto;
+      margin-bottom: 20px;
+    }
+
+    .profile-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 2px dashed rgba(0,255,157,0.6);
+      animation: rotate 12s linear infinite;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .profile-pic {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid #0d0d0d;
+      box-shadow:
+        0 0 20px rgba(0,255,157,0.15);
+    }
+
+    h1 {
+      font-size: 34px;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .tagline {
+      color: #bdbdbd;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* Button cards */
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .button {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-radius: 24px;
+      text-decoration: none;
+      color: white;
+      overflow: hidden;
+      transition: 0.25s ease;
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(10px);
+    }
+
+    .button:hover {
+      transform: translateY(-4px);
+    }
+
+    .button-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .text-group h2 {
+      font-size: 17px;
+      margin-bottom: 3px;
+    }
+
+    .text-group p {
+      font-size: 13px;
+      opacity: 0.75;
+    }
+
+    .arrow {
+      font-size: 22px;
+      opacity: 0.6;
+    }
+
+    /* Individual themes */
+
+    .instagram {
+      background: rgba(131,58,180,0.12);
+      box-shadow: 0 0 20px rgba(131,58,180,0.12);
+    }
+
+    .instagram .icon {
+      background: linear-gradient(
+        45deg,
+        #833ab4,
+        #fd1d1d,
+        #fcb045
+      );
+    }
+
+    .tiktok {
+      background: rgba(0,240,255,0.08);
+      box-shadow: 0 0 20px rgba(0,240,255,0.08);
+    }
+
+    .tiktok .icon {
+      background: linear-gradient(45deg, #111, #333);
+      border: 1px solid rgba(0,240,255,0.25);
+    }
+
+    .cashapp {
+      background: rgba(0,255,102,0.08);
+      box-shadow: 0 0 20px rgba(0,255,102,0.08);
+    }
+
+    .cashapp .icon {
+      background: linear-gradient(45deg, #00c244, #00ff88);
+      color: black;
+    }
+
+    .phone {
+      background: rgba(0,255,157,0.08);
+      box-shadow: 0 0 20px rgba(0,255,157,0.08);
+    }
+
+    .phone .icon {
+      background: linear-gradient(45deg, #00b09b, #00ff9d);
+      color: black;
+    }
+
+    .booking {
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 0 20px rgba(255,255,255,0.05);
+    }
+
+    .booking .icon {
+      background: linear-gradient(45deg, #ffffff, #d9d9d9);
+      color: black;
+    }
+
+    /* Floating glow orb */
+
+    .orb {
+      position: fixed;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(0,255,157,0.18),
+        transparent 70%
+      );
+      top: -120px;
+      right: -120px;
+      filter: blur(40px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="grid"></div>
+
+  <div class="stripe stripe1"></div>
+  <div class="stripe stripe2"></div>
+
+  <div class="orb"></div>
+
+  <div class="container">
+
+    <div class="top-card">
+
+      <div class="profile-wrapper">
+        <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
+      </div>
+
+      <h1>Pollo.oklas</h1>
+
+      <p class="tagline">
+        Creative barbering • Sharp fades • Modern Oklahoma style
+      </p>
+
+    </div>
+
+    <div class="links">
+
+      <a class="button instagram" href="https://www.instagram.com/pollo.oklas?igsh=cnBsMTdqMWExNnZk" target="_blank">
+
+        <div class="button-left">
+          <div class="icon">📸</div>
+
+          <div class="text-group">
+            <h2>Instagram</h2>
+            <p>@pollo.oklas</p>
+          </div>
+        </div>
+
+        <div class="arrow">→</div>
+
+      </a>
+
+      <a class="button tiktok" href="https://www.tiktok.com/@pollo.oklas?_r=1&_t=ZP-96aMeYBmDSp" target="_blank">
+
+        <div class="button-left">
+          <div class="icon">🎵</div>
+
+          <div class="text-group">
+            <h2>TikTok</h2>
+            <p>Watch transformations</p>
+          </div>
+        </div>
+
+        <div class="arrow">→</div>
+
+      </a>
+
+      <a class="button cashapp" href="https://cash.app/$YoungChip2009" target="_blank">
+
+        <div class="button-left">
+          <div class="icon">💸</div>
+
+          <div class="text-group">
+            <h2>Cash App</h2>
+            <p>$YoungChip2009</p>
+          </div>
+        </div>
+
+        <div class="arrow">→</div>
+
+      </a>
+
+      <a class="button phone" href="tel:4059927568">
+
+        <div class="button-left">
+          <div class="icon">📞</div>
+
+          <div class="text-group">
+            <h2>Call Now</h2>
+            <p>Direct contact</p>
+          </div>
+        </div>
+
+        <div class="arrow">→</div>
+
+      </a>
+
+      <a class="button booking" href="http://book.thecut.co/Pollo-oklas" target="_blank">
+
+        <div class="button-left">
+          <div class="icon">✂️</div>
+
+          <div class="text-group">
+            <h2>Book Appointment</h2>
+            <p>Reserve your next cut</p>
+          </div>
+        </div>
+
+        <div class="arrow">→</div>
+
+      </a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
